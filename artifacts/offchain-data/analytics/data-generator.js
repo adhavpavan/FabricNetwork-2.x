@@ -1,13 +1,5 @@
 const axios = require("axios");
 const url = "http://localhost:4000/channels/mychannel/chaincodes/fabcar";
-let pk = null;
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1Njg2NTIwNjgsInVzZXJuYW1lIjoidGVzdF91c2VyIiwib3JnTmFtZSI6Ik9yZzEiLCJpYXQiOjE1Njg2MTYwNjh9.g9NZnhY3G2MHub9I8iH17npWONcZKHcUiUk7Cnifbkw"
-let conf = {
-	headers: {
-		Authorization: `Bearer ${token}`,
-		"Content-Type": "application/json"
-	}
-};
 
 const { nanoid } = require('nanoid')
 
@@ -16,17 +8,6 @@ let colors = ['red', 'green', 'yello', 'white', 'gray', 'gold', 'silver', 'lemon
 let owners = ['owner1', 'owner2', 'owner3', 'owner4', 'owner5', 'owner6', 'owner7', 'owner8', 'owner9', 'owner10', 'owner11', 'owner12', 'owner13', 'owner14', 'owner15', 'owner16', 'owner17', 'owner18', 'owner19', 'owner20', 'owner21', 'owner22', 'owner23', 'owner24', 'owner25',]
 let model = ['model1', 'model2', 'model3', 'model4', 'model5', 'model6', 'model7', 'model8', 'model9', 'model10', 'model11', 'model12']
 let make = ['Audi', 'BMW', 'Tesla', 'ferrari', 'Dodge', 'Genesis', 'Hyundai', 'Kia', 'Land Rover', 'Lexus', 'Mazda', 'McLaren', 'Mercedes', 'Mini', 'Nissan', 'Porsche', 'Skoda', 'Volkswagen', 'Suzuki', 'Volvo']
-
-const createPostData = async (pk, data) => {
-	// console.log("Inside createPostData: DATA", data)
-	// console.log("Inside createPostData: JSON DATA", JSON.stringify(data))
-	return {
-		fcn: "createCar",
-		chaincodeName: "fabcar",
-		channelName: "mychannel",
-		args: [JSON.stringify(data), pk]
-	}
-}
 
 const login = async () => {
 	let d = {

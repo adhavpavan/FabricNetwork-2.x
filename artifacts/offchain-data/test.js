@@ -23,29 +23,3 @@ const connect =async ()=>{
 }
 
 connect()
-
-
-
-// MongoClient.connect("mongodb+srv://pavan:TbySmEkn9nuysLJz@cluster0.gxh9w.mongodb.net/fabric?retryWrites=true&w=majority", function(err, database) {
-//   if(err) return console.error(err);
-
-//   db = database;
-//   console.log("database connected", database)
-//   addData(database)
-
-//   db.listCollections().toArray(function(err, collInfos) {
-//       if (err) return `error --------------------------${err}`
-//       console.log(collInfos, "aaaaaaaaaaaaaaaaaaaaaaaaa")
-//     // collInfos is an array of collection info objects that look like:
-//     // { name: 'test', options: {} }
-// });
-
-//   // the Mongo driver recommends starting the server here because most apps *should* fail to start if they have no DB.  If yours is the exception, move the server startup elsewhere. 
-// });
-
-const addData= (database)=>{
-
-    // database.collection('mychannel_fabcar').insertOne({test:"test data"},()=>{
-    //     console.log("data inserted")
-    // })
-}

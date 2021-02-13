@@ -15,6 +15,9 @@ type SmartContract struct {
 	contractapi.Contract
 }
 
+type DocumentContract struct {
+	contractapi.Contract
+}
 var logger = flogging.MustGetLogger("fabcar_cc")
 
 type Car struct {
@@ -24,6 +27,14 @@ type Car struct {
 	Colour string `json:"colour"`
 	Owner  string `json:"owner"`
 	AddedAt uint64 `json:"addedAt"`
+}
+
+type Document struct {
+	ID string `json:"id"`
+	Name string `json:"name"`
+	AddedAt uint64 `json:"addedAt"`
+	URL string `json:"url"`
+	ContentHash string `json:"contentHash"`
 }
 
 func (s *SmartContract) CreateCar(ctx contractapi.TransactionContextInterface, carData string) (string, error) {
@@ -194,19 +205,62 @@ func (s *SmartContract) getQueryResultForQueryString(ctx contractapi.Transaction
 	return results, nil
 }
 
+func (s *DocumentContract) CreateDocument(ctx contractapi.TransactionContextInterface, documentDate string) (string, error) {
+
+	if len(documentDate) == 0 {
+		return "", fmt.Errorf("Please pass the correct document data")
+	}
+
+	var document Document
+	err := json.Unmarshal([]byte(documentDate), &document)
+	if err != nil {
+		return "",  fmt.Errorf("Failed while unmarshling document. %s", err.Error())
+	}
+
+	documentAsBytes, err := json.Marshal(document)
+	if err != nil {
+		return "", fmt.Errorf("Failed while marshling car. %s", err.Error())
+	}
+
+	return ctx.GetStub().GetTxID(), ctx.GetStub().PutState(document.ID, documentAsBytes)
+}
+
+func (s *DocumentContract) GetDocumentById(ctx contractapi.TransactionContextInterface, documentID string) (*Document, error) {
+	if len(documentID) == 0 {
+		return nil, fmt.Errorf("Please provide correct document Id")
+		// return shim.Error("Incorrect number of arguments. Expecting 1")
+	}
+
+	documentAsBytes, err := ctx.GetStub().GetState(documentID)
+
+	if err != nil {
+		return nil, fmt.Errorf("Failed to read from world state. %s", err.Error())
+	}
+
+	if documentAsBytes == nil {
+		return nil, fmt.Errorf("%s does not exist", documentID)
+	}
+
+	document := new(Document)
+	_ = json.Unmarshal(documentAsBytes, document)
+
+	return document, nil
+
+}
+
 func (s *SmartContract) GetDocumentUsingCarContract(ctx contractapi.TransactionContextInterface, documentID string) (string, error) {
 	if len(documentID) == 0 {
 		return "", fmt.Errorf("Please provide correct contract Id")
 		// return shim.Error("Incorrect number of arguments. Expecting 1")
 	}
 
-	params := []string{"GetDocumentById", documentID}
+	params := []string{"DocumentContract:GetDocumentById", documentID}
 	queryArgs := make([][]byte, len(params))
 	for i, arg := range params {
 		queryArgs[i] = []byte(arg)
 	}
 
-	response :=  ctx.GetStub().InvokeChaincode("test_cc", queryArgs, "mychannel")
+	response :=  ctx.GetStub().InvokeChaincode("DocumentContract", queryArgs, "mychannel")
 	// if response.Status !=  "OK" {
 	// 	return "", fmt.Errorf("Failed to query chaincode. Got error: %s", response.Payload)
 	// }
@@ -217,7 +271,7 @@ func (s *SmartContract) GetDocumentUsingCarContract(ctx contractapi.TransactionC
 
 func main() {
 
-	chaincode, err := contractapi.NewChaincode(new(SmartContract))
+	chaincode, err := contractapi.NewChaincode(new(SmartContract), new(DocumentContract))
 	if err != nil {
 		fmt.Printf("Error create fabcar chaincode: %s", err.Error())
 		return

@@ -26,7 +26,7 @@
         "peer0.org1.example.com": {
             "url": "grpcs://localhost:7051",
             "tlsCACerts": {
-                "pem": ""
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICFzCCAb2gAwIBAgIUfP6+3f/8tkiYn0iH0Rhs7JrwJ1IwCgYIKoZIzj0EAwIw\naDELMAkGA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMRQwEgYDVQQK\nEwtIeXBlcmxlZGdlcjEPMA0GA1UECxMGRmFicmljMRkwFwYDVQQDExBmYWJyaWMt\nY2Etc2VydmVyMB4XDTIxMDIxMjA4MDAwMFoXDTM2MDIwOTA4MDAwMFowaDELMAkG\nA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMRQwEgYDVQQKEwtIeXBl\ncmxlZGdlcjEPMA0GA1UECxMGRmFicmljMRkwFwYDVQQDExBmYWJyaWMtY2Etc2Vy\ndmVyMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEb/+aSHyO4pGwpq4DzBnPoMbB\nkAto8uQuQvXfNU1jR76hZJVeeECwF272NQrGFFSyx4SA+tkD4gnYMmlUDiCMt6NF\nMEMwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYDVR0OBBYE\nFFDHnJ9hhauDpE2n4Dhxym0/0FZ3MAoGCCqGSM49BAMCA0gAMEUCIQDewY7lcQWh\nlM9D8IN+5MskvEr+8fItbA2Y5EhX7yo4+QIgQOWaN+SfdFDe57OoT4Stju2b+Lr9\nZbA4MyMft1jrSrk=\n-----END CERTIFICATE-----\n"
             },
             "grpcOptions": {
                 "ssl-target-name-override": "peer0.org1.example.com",
@@ -41,7 +41,7 @@
             "url": "https://localhost:7054",
             "caName": "ca.org1.example.com",
             "tlsCACerts": {
-                "pem": ""
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICFzCCAb2gAwIBAgIUfP6+3f/8tkiYn0iH0Rhs7JrwJ1IwCgYIKoZIzj0EAwIw\naDELMAkGA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMRQwEgYDVQQK\nEwtIeXBlcmxlZGdlcjEPMA0GA1UECxMGRmFicmljMRkwFwYDVQQDExBmYWJyaWMt\nY2Etc2VydmVyMB4XDTIxMDIxMjA4MDAwMFoXDTM2MDIwOTA4MDAwMFowaDELMAkG\nA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMRQwEgYDVQQKEwtIeXBl\ncmxlZGdlcjEPMA0GA1UECxMGRmFicmljMRkwFwYDVQQDExBmYWJyaWMtY2Etc2Vy\ndmVyMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEb/+aSHyO4pGwpq4DzBnPoMbB\nkAto8uQuQvXfNU1jR76hZJVeeECwF272NQrGFFSyx4SA+tkD4gnYMmlUDiCMt6NF\nMEMwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYDVR0OBBYE\nFFDHnJ9hhauDpE2n4Dhxym0/0FZ3MAoGCCqGSM49BAMCA0gAMEUCIQDewY7lcQWh\nlM9D8IN+5MskvEr+8fItbA2Y5EhX7yo4+QIgQOWaN+SfdFDe57OoT4Stju2b+Lr9\nZbA4MyMft1jrSrk=\n-----END CERTIFICATE-----\n"
             },
             "httpOptions": {
                 "verify": false

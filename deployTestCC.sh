@@ -50,8 +50,8 @@ CHANNEL_NAME="mychannel"
 CC_RUNTIME_LANGUAGE="golang"
 VERSION="1"
 SEQUENCE="1"
-CC_SRC_PATH="./artifacts/src/github.com/fabcar/go"
-CC_NAME="fabcar"
+CC_SRC_PATH="./artifacts/src/github.com/test_cc/go"
+CC_NAME="test_cc"
 
 packageChaincode() {
     rm -rf ${CC_NAME}.tar.gz
@@ -266,7 +266,7 @@ chaincodeQuery() {
 # chaincodeQuery
 
 # Run this function if you add any new dependency in chaincode
-# presetup
+presetup
 
 packageChaincode
 installChaincode
