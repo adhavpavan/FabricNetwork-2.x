@@ -1,11 +1,13 @@
 const { Gateway, Wallets, TxEventHandler, GatewayOptions, DefaultEventHandlerStrategies, TxEventHandlerFactory } = require('fabric-network');
 const fs = require('fs');
+const EventStrategies = require('fabric-network/lib/impl/event/defaulteventhandlerstrategies');
 const path = require("path")
 const log4js = require('log4js');
 const logger = log4js.getLogger('BasicNetwork');
 const util = require('util')
 
-const helper = require('./helper')
+const helper = require('./helper');
+const { blockListener, contractListener } = require('./Listeners');
 
 const invokeTransaction = async (channelName, chaincodeName, fcn, args, username, org_name, transientData) => {
     try {
@@ -39,6 +41,7 @@ const invokeTransaction = async (channelName, chaincodeName, fcn, args, username
                 commitTimeout: 100,
                 strategy: DefaultEventHandlerStrategies.NETWORK_SCOPE_ALLFORTX
             }
+            // eventHandlerOptions: EventStrategies.NONE
             // transaction: {
             //     strategy: createTransactionEventhandler()
             // }
@@ -53,8 +56,9 @@ const invokeTransaction = async (channelName, chaincodeName, fcn, args, username
 
         const contract = network.getContract(chaincodeName);
 
-
-
+        // await contract.addContractListener(contractListener);
+        // await contract.addBlockListener(blockListener);
+       
 
         // Multiple smartcontract in one chaincode
         let result;
