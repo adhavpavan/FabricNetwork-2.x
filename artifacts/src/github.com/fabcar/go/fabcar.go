@@ -48,6 +48,7 @@ func (s *SmartContract) CreateCar(ctx contractapi.TransactionContextInterface, c
 	return ctx.GetStub().GetTxID(), ctx.GetStub().PutState(car.ID, carAsBytes)
 }
 
+//
 func (s *SmartContract) UpdateCarOwner(ctx contractapi.TransactionContextInterface, carID string, newOwner string) (string, error) {
 
 	if len(carID) == 0 {
@@ -88,7 +89,6 @@ func (s *SmartContract) GetHistoryForAsset(ctx contractapi.TransactionContextInt
 	}
 	defer resultsIterator.Close()
 
-	// buffer is a JSON array containing historic values for the marble
 	var buffer bytes.Buffer
 	buffer.WriteString("[")
 
@@ -98,7 +98,6 @@ func (s *SmartContract) GetHistoryForAsset(ctx contractapi.TransactionContextInt
 		if err != nil {
 			return "", fmt.Errorf(err.Error())
 		}
-		// Add a comma before array members, suppress it for the first array member
 		if bArrayMemberAlreadyWritten == true {
 			buffer.WriteString(",")
 		}

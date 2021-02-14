@@ -1,10 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"strconv"
-	"bytes"
 	"time"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
@@ -18,22 +18,24 @@ type SmartContract struct {
 type DocumentContract struct {
 	contractapi.Contract
 }
+
 var logger = flogging.MustGetLogger("fabcar_cc")
 
+//
 type Car struct {
-	ID string `json:"id"`
-	Make   string `json:"make"`
-	Model  string `json:"model"`
-	Colour string `json:"colour"`
-	Owner  string `json:"owner"`
+	ID      string `json:"id"`
+	Make    string `json:"make"`
+	Model   string `json:"model"`
+	Colour  string `json:"colour"`
+	Owner   string `json:"owner"`
 	AddedAt uint64 `json:"addedAt"`
 }
 
 type Document struct {
-	ID string `json:"id"`
-	Name string `json:"name"`
-	AddedAt uint64 `json:"addedAt"`
-	URL string `json:"url"`
+	ID          string `json:"id"`
+	Name        string `json:"name"`
+	AddedAt     uint64 `json:"addedAt"`
+	URL         string `json:"url"`
 	ContentHash string `json:"contentHash"`
 }
 
@@ -46,7 +48,7 @@ func (s *SmartContract) CreateCar(ctx contractapi.TransactionContextInterface, c
 	var car Car
 	err := json.Unmarshal([]byte(carData), &car)
 	if err != nil {
-		return "",  fmt.Errorf("Failed while unmarshling car. %s", err.Error())
+		return "", fmt.Errorf("Failed while unmarshling car. %s", err.Error())
 	}
 
 	carAsBytes, err := json.Marshal(car)
@@ -214,7 +216,7 @@ func (s *DocumentContract) CreateDocument(ctx contractapi.TransactionContextInte
 	var document Document
 	err := json.Unmarshal([]byte(documentDate), &document)
 	if err != nil {
-		return "",  fmt.Errorf("Failed while unmarshling document. %s", err.Error())
+		return "", fmt.Errorf("Failed while unmarshling document. %s", err.Error())
 	}
 
 	documentAsBytes, err := json.Marshal(document)
@@ -260,7 +262,7 @@ func (s *SmartContract) GetDocumentUsingCarContract(ctx contractapi.TransactionC
 		queryArgs[i] = []byte(arg)
 	}
 
-	response :=  ctx.GetStub().InvokeChaincode("DocumentContract", queryArgs, "mychannel")
+	response := ctx.GetStub().InvokeChaincode("DocumentContract", queryArgs, "mychannel")
 	// if response.Status !=  "OK" {
 	// 	return "", fmt.Errorf("Failed to query chaincode. Got error: %s", response.Payload)
 	// }

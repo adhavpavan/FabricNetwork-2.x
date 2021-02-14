@@ -118,6 +118,7 @@ crypto/*
 
 vendor
 
+
 artifacts/src/github.com/golang
 artifacts/src/github.com/pkg
 artifacts/src/github.com/hyperledger
