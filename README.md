@@ -33,6 +33,7 @@ Steps:
    4) Approve Chaincode as per Lifecycle Endorsment Policy
    5) Commit Chaincode Defination
 7) Create Connection Profiles
-8) Register User using API
-9) Invoke Chaincode Transaction
-10) Query Chaincode Transaction
+8) Start API Server
+9) Register User using API
+10) Invoke Chaincode Transaction
+11) Query Chaincode Transaction

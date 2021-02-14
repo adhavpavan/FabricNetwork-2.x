@@ -43,7 +43,7 @@ func (s *SmartContract) CreateCar(ctx contractapi.TransactionContextInterface, c
 		return "", fmt.Errorf("Failed while marshling car. %s", err.Error())
 	}
 
-	// ctx.GetStub().SetEvent("CreateAsset", carAsBytes)
+	ctx.GetStub().SetEvent("CreateAsset", carAsBytes)
 
 	return ctx.GetStub().GetTxID(), ctx.GetStub().PutState(car.ID, carAsBytes)
 }
@@ -205,7 +205,7 @@ func (s *SmartContract) GetDocumentUsingCarContract(ctx contractapi.TransactionC
 		queryArgs[i] = []byte(arg)
 	}
 
-	response := ctx.GetStub().InvokeChaincode("test_cc", queryArgs, "mychannel")
+	response := ctx.GetStub().InvokeChaincode("document_cc", queryArgs, "mychannel")
 
 	return string(response.Payload), nil
 
@@ -222,7 +222,7 @@ func (s *SmartContract) CreateDocumentUsingCarContract(ctx contractapi.Transacti
 		queryArgs[i] = []byte(arg)
 	}
 
-	response := ctx.GetStub().InvokeChaincode("test_cc", queryArgs, "mychannel")
+	response := ctx.GetStub().InvokeChaincode("document_cc", queryArgs, "mychannel")
 
 	return string(response.Payload), nil
 
