@@ -1,10 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"strconv"
-	"bytes"
 	"time"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
@@ -18,11 +18,11 @@ type SmartContract struct {
 var logger = flogging.MustGetLogger("fabcar_cc")
 
 type Car struct {
-	ID string `json:"id"`
-	Make   string `json:"make"`
-	Model  string `json:"model"`
-	Colour string `json:"colour"`
-	Owner  string `json:"owner"`
+	ID      string `json:"id"`
+	Make    string `json:"make"`
+	Model   string `json:"model"`
+	Colour  string `json:"colour"`
+	Owner   string `json:"owner"`
 	AddedAt uint64 `json:"addedAt"`
 }
 
@@ -35,13 +35,15 @@ func (s *SmartContract) CreateCar(ctx contractapi.TransactionContextInterface, c
 	var car Car
 	err := json.Unmarshal([]byte(carData), &car)
 	if err != nil {
-		return "",  fmt.Errorf("Failed while unmarshling car. %s", err.Error())
+		return "", fmt.Errorf("Failed while unmarshling car. %s", err.Error())
 	}
 
 	carAsBytes, err := json.Marshal(car)
 	if err != nil {
 		return "", fmt.Errorf("Failed while marshling car. %s", err.Error())
 	}
+
+	// ctx.GetStub().SetEvent("CreateAsset", carAsBytes)
 
 	return ctx.GetStub().GetTxID(), ctx.GetStub().PutState(car.ID, carAsBytes)
 }
@@ -167,7 +169,6 @@ func (s *SmartContract) GetContractsForQuery(ctx contractapi.TransactionContextI
 
 func (s *SmartContract) getQueryResultForQueryString(ctx contractapi.TransactionContextInterface, queryString string) ([]Car, error) {
 
-	// resultsIterator, err := ctx.GetStub().GetPrivateDataQueryResult("collectionMarbles", queryString)
 	resultsIterator, err := ctx.GetStub().GetQueryResult(queryString)
 	if err != nil {
 		return nil, err
@@ -197,7 +198,6 @@ func (s *SmartContract) getQueryResultForQueryString(ctx contractapi.Transaction
 func (s *SmartContract) GetDocumentUsingCarContract(ctx contractapi.TransactionContextInterface, documentID string) (string, error) {
 	if len(documentID) == 0 {
 		return "", fmt.Errorf("Please provide correct contract Id")
-		// return shim.Error("Incorrect number of arguments. Expecting 1")
 	}
 
 	params := []string{"GetDocumentById", documentID}
@@ -206,10 +206,24 @@ func (s *SmartContract) GetDocumentUsingCarContract(ctx contractapi.TransactionC
 		queryArgs[i] = []byte(arg)
 	}
 
-	response :=  ctx.GetStub().InvokeChaincode("test_cc", queryArgs, "mychannel")
-	// if response.Status !=  "OK" {
-	// 	return "", fmt.Errorf("Failed to query chaincode. Got error: %s", response.Payload)
-	// }
+	response := ctx.GetStub().InvokeChaincode("test_cc", queryArgs, "mychannel")
+
+	return string(response.Payload), nil
+
+}
+
+func (s *SmartContract) CreateDocumentUsingCarContract(ctx contractapi.TransactionContextInterface, functionName string, documentData string) (string, error) {
+	if len(documentData) == 0 {
+		return "", fmt.Errorf("Please provide correct document data")
+	}
+
+	params := []string{functionName, documentData}
+	queryArgs := make([][]byte, len(params))
+	for i, arg := range params {
+		queryArgs[i] = []byte(arg)
+	}
+
+	response := ctx.GetStub().InvokeChaincode("test_cc", queryArgs, "mychannel")
 
 	return string(response.Payload), nil
 

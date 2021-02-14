@@ -126,6 +126,7 @@ artifacts/src/github.com/fabcar/go/go.sum
 crypto/fabric-client-kv-org1
 fabcar.tar.gz
 test_cc.tar.gz
+multicontracts_cc.tar.gz
 artifacts/src/github.com/fabcar_contract_api/go/vendor
 artifacts/src/github.com/fabcar_contract_api/go/go.sum
 api-2.0/wallet
