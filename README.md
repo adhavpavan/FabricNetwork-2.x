@@ -4,10 +4,18 @@ Youtube Channel: https://www.youtube.com/watch?v=SJTdJt6N6Ow&list=PLSBNVhWU6KjW4
 
 
 Network Topology
+
 Three Orgs(Peer Orgs)
+
     - Each Org have one peer(Each Endorsing Peer)
     - Each Org have separate Certificate Authority
-One Orderer Org(Having three orderers)
+    - Each Peer has Current State database as couch db
+
+
+One Orderer Org
+
+    - Three Orderers
+    - One Certificate Authority
 
 
 
