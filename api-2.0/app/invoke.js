@@ -11,19 +11,12 @@ const { blockListener, contractListener } = require('./Listeners');
 
 const invokeTransaction = async (channelName, chaincodeName, fcn, args, username, org_name, transientData) => {
     try {
-        logger.debug(util.format('\n============ invoke transaction on channel %s ============\n', channelName));
+        const ccp = await helper.getCCP(org_name);
 
-        // load the network configuration
-        // const ccpPath =path.resolve(__dirname, '..', 'config', 'connection-org1.json');
-        // const ccpJSON = fs.readFileSync(ccpPath, 'utf8')
-        const ccp = await helper.getCCP(org_name) //JSON.parse(ccpJSON);
-
-        // Create a new file system based wallet for managing identities.
-        const walletPath = await helper.getWalletPath(org_name) //path.join(process.cwd(), 'wallet');
+        const walletPath = await helper.getWalletPath(org_name);
         const wallet = await Wallets.newFileSystemWallet(walletPath);
         console.log(`Wallet path: ${walletPath}`);
 
-        // Check to see if we've already enrolled the user.
         let identity = await wallet.get(username);
         if (!identity) {
             console.log(`An identity for the user ${username} does not exist in the wallet, so registering user`);
@@ -37,27 +30,17 @@ const invokeTransaction = async (channelName, chaincodeName, fcn, args, username
 
         const connectOptions = {
             wallet, identity: username, discovery: { enabled: true, asLocalhost: true },
-            eventHandlerOptions: {
-                commitTimeout: 100,
-                strategy: DefaultEventHandlerStrategies.NETWORK_SCOPE_ALLFORTX
-            }
-            // eventHandlerOptions: EventStrategies.NONE
-            // transaction: {
-            //     strategy: createTransactionEventhandler()
-            // }
+            eventHandlerOptions: EventStrategies.NONE
         }
 
-        // Create a new gateway for connecting to our peer node.
         const gateway = new Gateway();
         await gateway.connect(ccp, connectOptions);
 
-        // Get the network (channel) our contract is deployed to.
         const network = await gateway.getNetwork(channelName);
-
         const contract = network.getContract(chaincodeName);
 
         // await contract.addContractListener(contractListener);
-        // await contract.addBlockListener(blockListener);
+        // await network.addBlockListener(blockListener);
        
 
         // Multiple smartcontract in one chaincode
