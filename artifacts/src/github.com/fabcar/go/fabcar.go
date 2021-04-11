@@ -21,7 +21,7 @@ type Car struct {
 	ID      string `json:"id"`
 	Make    string `json:"make"`
 	Model   string `json:"model"`
-	Colour  string `json:"colour"`
+	Color   string `json:"color"`
 	Owner   string `json:"owner"`
 	AddedAt uint64 `json:"addedAt"`
 }
@@ -152,6 +152,14 @@ func (s *SmartContract) GetCarById(ctx contractapi.TransactionContextInterface, 
 
 	return car, nil
 
+}
+
+func (s *SmartContract) DeleteCarById(ctx contractapi.TransactionContextInterface, carID string) (string, error) {
+	if len(carID) == 0 {
+		return "", fmt.Errorf("Please provide correct contract Id")
+	}
+
+	return ctx.GetStub().GetTxID(), ctx.GetStub().DelState(carID)
 }
 
 func (s *SmartContract) GetContractsForQuery(ctx contractapi.TransactionContextInterface, queryString string) ([]Car, error) {

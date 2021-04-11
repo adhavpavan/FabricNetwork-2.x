@@ -48,8 +48,8 @@ presetup() {
 
 CHANNEL_NAME="mychannel"
 CC_RUNTIME_LANGUAGE="golang"
-VERSION="2"
-SEQUENCE="3"
+VERSION="1"
+SEQUENCE="2"
 CC_SRC_PATH="./artifacts/src/github.com/fabcar/go"
 CC_NAME="fabcar"
 
@@ -231,7 +231,7 @@ chaincodeQuery() {
 # chaincodeQuery
 
 # Run this function if you add any new dependency in chaincode
-presetup
+# presetup
 
 packageChaincode
 installChaincode
