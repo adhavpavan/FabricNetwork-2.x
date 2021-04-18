@@ -142,7 +142,7 @@ channel-artifacts/mychannel.block
 config_update_in_envelope.json
 config_update.json
 config_update.pb
-config.json
+# config.json
 log.txt
 modified_config.json
 modified_config.pb
