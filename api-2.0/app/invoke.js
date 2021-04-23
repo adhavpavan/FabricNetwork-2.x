@@ -26,11 +26,10 @@ const invokeTransaction = async (channelName, chaincodeName, fcn, args, username
             return;
         }
 
-        
 
         const connectOptions = {
-            wallet, identity: username, discovery: { enabled: true, asLocalhost: true },
-            eventHandlerOptions: EventStrategies.NONE
+            wallet, identity: username, discovery: { enabled: true, asLocalhost: true }
+            // eventHandlerOptions: EventStrategies.NONE
         }
 
         const gateway = new Gateway();
@@ -41,16 +40,18 @@ const invokeTransaction = async (channelName, chaincodeName, fcn, args, username
 
         // await contract.addContractListener(contractListener);
         // await network.addBlockListener(blockListener);
-       
+
 
         // Multiple smartcontract in one chaincode
         let result;
         let message;
+        console.log("=====================================================================================================================================================================================================================================================================================================================================================================================================", fcn)
 
         switch (fcn) {
             case "CreateCar":
+                console.log("@@@@@@@@@@@@@@@@@@@@@@@")
                 result = await contract.submitTransaction('SmartContract:'+fcn, args[0]);
-                console.log(result.toString())
+                console.log("************************",result.toString())
                 result = {txid: result.toString()}
                 break;
             case "UpdateCarOwner":
