@@ -243,7 +243,6 @@ checkCommitReadyness
 approveForMyOrg3
 commitChaincodeDefination
 queryCommitted
-chaincodeInvokeInit
 sleep 5
 chaincodeInvoke
 sleep 3

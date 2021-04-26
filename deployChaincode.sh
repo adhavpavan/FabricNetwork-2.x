@@ -249,7 +249,7 @@ chaincodeInvokeDeleteAsset() {
 # chaincodeInvokeDeleteAsset
 
 chaincodeQuery() {
-    setGlobalsForPeer0Org2
+    setGlobalsForPeer0Org1
     peer chaincode query -C $CHANNEL_NAME -n ${CC_NAME} -c '{"function": "GetCarById","Args":["1"]}'
 }
 
@@ -266,6 +266,7 @@ checkCommitReadyness
 approveForMyOrg2
 checkCommitReadyness
 approveForMyOrg3
+checkCommitReadyness
 commitChaincodeDefination
 queryCommitted
 chaincodeInvokeInit

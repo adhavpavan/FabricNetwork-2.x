@@ -31,6 +31,9 @@ Organizations:
             Endorsement:
                 Type: Signature
                 Rule: "OR('Org1MSP.peer')"
+            # CustomPolicy:
+            #     Type: Signature
+            #     Rule: "OR('Org1MSP.admin', 'Org1MSP.client')"
 
         AnchorPeers:
             - Host: peer0.org1.example.com
@@ -53,6 +56,9 @@ Organizations:
             Endorsement:
                 Type: Signature
                 Rule: "OR('Org2MSP.peer')"
+            # CustomPolicy:
+            #     Type: Signature
+            #     Rule: "OR('Org1MSP.admin')"
 
         AnchorPeers:
             - Host: peer0.org2.example.com
@@ -75,6 +81,9 @@ Organizations:
             Endorsement:
                 Type: Signature
                 Rule: "OR('Org3MSP.peer')"
+            # CustomPolicy:
+            #     Type: Signature
+            #     Rule: "OR('Org1MSP.admin')"
 
         AnchorPeers:
             - Host: peer0.org3.example.com
@@ -157,6 +166,7 @@ Application: &ApplicationDefaults
 
         # ACL policy for invoking chaincodes on peer
         peer/Propose: /Channel/Application/Writers
+        # peer/Propose: /Channel/Application/Restrict
 
         # ACL policy for chaincode to chaincode invocation
         peer/ChaincodeToChaincode: /Channel/Application/Readers
@@ -187,9 +197,9 @@ Application: &ApplicationDefaults
         Endorsement:
             Type: ImplicitMeta
             Rule: "MAJORITY Endorsement"
-        CustomPolicy:
-                Type: Signature
-                Rule: "OR('Org1MSP.client')"
+        # Restrict:
+        #     Type: ImplicitMeta
+        #     Rule: "ANY CustomPolicy"
 
     Capabilities:
         <<: *ApplicationCapabilities
