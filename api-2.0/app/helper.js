@@ -127,6 +127,15 @@ const getCaInfo = async (org, ccp) => {
     return caInfo
 }
 
+const getOrgMSP = (org) => {
+    let orgMSP = null
+    org == 'Org1' ? orgMSP = 'Org1MSP' : null
+    org == 'Org2' ? orgMSP = 'Org2MSP' : null
+    org == 'Org3' ? orgMSP = 'Org3MSP' : null
+    return orgMSP
+
+}
+
 const enrollAdmin = async (org, ccp) => {
     console.log('calling enroll Admin method')
     try {
@@ -203,7 +212,20 @@ const registerAndGerSecret = async (username, userOrg) => {
         // Register the user, enroll the user, and import the new identity into the wallet.
         secret = await ca.register({ affiliation: await getAffiliation(userOrg), enrollmentID: username, role: 'client' }, adminUser);
         // const secret = await ca.register({ affiliation: 'org1.department1', enrollmentID: username, role: 'client', attrs: [{ name: 'role', value: 'approver', ecert: true }] }, adminUser);
-
+        const enrollment = await ca.enroll({
+            enrollmentID: username,
+            enrollmentSecret: secret
+        });
+        let orgMSPId = getOrgMSP(userOrg)
+        const x509Identity = {
+            credentials: {
+                certificate: enrollment.certificate,
+                privateKey: enrollment.key.toBytes(),
+            },
+            mspId: orgMSPId,
+            type: 'X.509',
+        };
+        await wallet.put(username, x509Identity);
     } catch (error) {
         return error.message
     }
