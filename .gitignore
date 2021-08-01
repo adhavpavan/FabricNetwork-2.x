@@ -169,3 +169,13 @@ artifacts/ca-operations/clients
 artifacts/ca-operations/fabric-ca
 connection-org
 *wallet*
+token.tar.gz
+artifacts/ca-operations/Revocation/clients
+artifacts/ca-operations/Revocation/crl_base64
+artifacts/ca-operations/Revocation/config_block.json
+artifacts/ca-operations/Revocation/config.json
+artifacts/ca-operations/Revocation/crl_update_in_envelope.json
+artifacts/ca-operations/Revocation/crl_update_in_envelope.pb
+artifacts/ca-operations/Revocation/crl_update.json
+artifacts/ca-operations/Revocation/crl_update.pb
+artifacts/ca-operations/Revocation/mychannel_config.block
