@@ -41,7 +41,9 @@ function revokeFromCA() {
     # fabric-ca-client revoke -e user1 --gencrl --tls.certfiles $TLS_CA
 
     # base64 clients/admin/msp/crls/crl.pem > crl_base64
-    base64 -i clients/admin/msp/crls/crl.pem > crl_base64
+    # base64 -i clients/admin/msp/crls/crl.pem > crl_base64
+
+    cat clients/admin/msp/crls/crl.pem | base64 -w 0 > crl_base64
 
 }
 
