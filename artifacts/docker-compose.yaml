@@ -27,6 +27,9 @@ services:
       - ORDERER_METRICS_PROVIDER=prometheus
       - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443
       - ORDERER_GENERAL_LISTENPORT=7050
+      # - ORDERER_GENERAL_TLS_TLSHANDSHAKETIMESHIFT=1240h
+      # - ORDERER_GENERAL_CLUSTER_TLSHANDSHAKETIMESHIFT=200h
+      # - ORDERER_GENERAL_AUTHENTICATION_NOEXPIRATIONCHECKS=true
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/orderers
     command: orderer
     ports:
@@ -38,6 +41,7 @@ services:
       - ./channel/genesis.block:/var/hyperledger/orderer/genesis.block
       - ./channel/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp:/var/hyperledger/orderer/msp
       - ./channel/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls:/var/hyperledger/orderer/tls
+      # - /var/pavan/orderer:/var/hyperledger/production
 
   orderer2.example.com:
     container_name: orderer2.example.com
@@ -62,6 +66,9 @@ services:
       - ORDERER_METRICS_PROVIDER=prometheus
       - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443
       - ORDERER_GENERAL_LISTENPORT=8050
+      # - ORDERER_GENERAL_TLS_TLSHANDSHAKETIMESHIFT=1240h
+      # - ORDERER_GENERAL_CLUSTER_TLSHANDSHAKETIMESHIFT=200h
+      # - ORDERER_GENERAL_AUTHENTICATION_NOEXPIRATIONCHECKS=true
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/orderers
     command: orderer
     ports:
@@ -73,6 +80,7 @@ services:
       - ./channel/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
       - ./channel/crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/msp:/var/hyperledger/orderer/msp
       - ./channel/crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls:/var/hyperledger/orderer/tls
+      # - /var/pavan/orderer2:/var/hyperledger/production
 
   orderer3.example.com:
     container_name: orderer3.example.com
@@ -97,6 +105,9 @@ services:
       - ORDERER_METRICS_PROVIDER=prometheus
       - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443
       - ORDERER_GENERAL_LISTENPORT=9050
+      # - ORDERER_GENERAL_TLS_TLSHANDSHAKETIMESHIFT=1240h
+      # - ORDERER_GENERAL_CLUSTER_TLSHANDSHAKETIMESHIFT=200h
+      # - ORDERER_GENERAL_AUTHENTICATION_NOEXPIRATIONCHECKS=true
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/orderers
     command: orderer
     ports:
@@ -108,6 +119,7 @@ services:
       - ./channel/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
       - ./channel/crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/msp:/var/hyperledger/orderer/msp
       - ./channel/crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls:/var/hyperledger/orderer/tls
+      # - /var/pavan/orderer3:/var/hyperledger/production
 
   couchdb0:
     container_name: couchdb0
@@ -184,6 +196,7 @@ services:
       - ./channel/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp:/etc/hyperledger/crypto/peer/msp
       - ./channel/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls:/etc/hyperledger/crypto/peer/tls
       - /var/run/:/host/var/run/
+      # - /var/pavan/peer0-org1:/var/hyperledger/production
       # - ./channel/:/etc/hyperledger/channel/
     networks:
       - test
@@ -227,6 +240,7 @@ services:
       - ./channel/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp:/etc/hyperledger/crypto/peer/msp
       - ./channel/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls:/etc/hyperledger/crypto/peer/tls
       - /var/run/:/host/var/run/
+      # - /var/pavan/peer0-org2:/var/hyperledger/production
       # - ./channel/:/etc/hyperledger/channel/
     networks:
       - test
@@ -274,5 +288,6 @@ services:
       - ./channel/crypto-config/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/msp:/etc/hyperledger/crypto/peer/msp
       - ./channel/crypto-config/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls:/etc/hyperledger/crypto/peer/tls
       - /var/run/:/host/var/run/
+      # - /var/pavan/peer0-org3:/var/hyperledger/production
     networks:
       - test

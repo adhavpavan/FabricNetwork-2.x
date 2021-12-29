@@ -1,0 +1,24 @@
+version: "3.2"
+networks:
+    test:
+services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+        # - 5672:5672
+        # - 15672:15672
+        # - 61613:61613 #stomp port
+        - 5672:5672  #amqp port
+        # - 61613:61613 #stomp port
+        - 15672:15672 # management web console
+    volumes:
+        - ./data/rabbitmq/data/:/var/lib/rabbitmq/mnesia
+        - ./data/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+        - test
+    # environment:
+    #     - RABBITMQ_DEFAULT_USER=admin  # Adapt the credentials to your needs
+    #     - RABBITMQ_DEFAULT_PASS=adminpw
+    # networks:
+    #     - rabbitmq_go_net

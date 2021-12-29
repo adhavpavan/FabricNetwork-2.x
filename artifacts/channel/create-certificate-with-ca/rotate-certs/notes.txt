@@ -1,0 +1,33 @@
+
+
+Part I
+    1) Create Network 
+
+
+
+Part II
+    1) Persist data
+    2) Set time in past of your machine if you want to reproduce certificate expiration(If network already down cause of cert expire, you can skip this issue reproduce part )
+        - sudo timedatectl set-ntp no
+        - sudo timedatectl set-time '2020-01-05'
+        - sudo timedatectl set-time '2020-08-05'
+
+        - sudo timedatectl set-ntp yes
+        - sudo hwclock — systohc — localtime
+
+        - 720h (1 month)
+
+    2) Create ca services from scratch
+        - Change permission of folder fabric-ca
+        - Change tls ime to expire for 4320h
+
+
+
+
+
+
+
+
+Orderer changes when update
+- ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/sys-channel.block
+- ./channel/create-certificate-with-ca/rotate-certs/step_1/sys-channel.block:/var/hyperledger/orderer/sys-channel.block

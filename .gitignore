@@ -179,3 +179,8 @@ artifacts/ca-operations/Revocation/crl_update_in_envelope.pb
 artifacts/ca-operations/Revocation/crl_update.json
 artifacts/ca-operations/Revocation/crl_update.pb
 artifacts/ca-operations/Revocation/mychannel_config.block
+api-2.0/queue/data/rabbitmq/data
+artifacts/channel/new-certs
+config.json
+mychannel.block
+sys-channel.block

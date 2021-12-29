@@ -1,0 +1,63 @@
+export CORE_PEER_TLS_ENABLED=true
+# export ORDERER_CA=${PWD}/../../../../new-certs/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+export ORDERER_CA=${PWD}/../../../../crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+export FABRIC_CFG_PATH=${PWD}/../../../../../channel/config/
+
+export TLS_FILE=${PWD}/../../../../../artifacts/channel/crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/server.crt 
+
+export ORDERER_1_TLS_FILE=${PWD}/../../../../new-certs/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt
+
+export CHANNEL_NAME=mychannel
+export SYSTEM_CHANNEL_NAME=sys-channel
+
+setGlobalsForOrderer() {
+    export CORE_PEER_LOCALMSPID="OrdererMSP"
+    # export CORE_PEER_TLS_ROOTCERT_FILE=${PWD}/../../../../new-certs/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+    export CORE_PEER_MSPCONFIGPATH=${PWD}/../../../../crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp
+
+}
+
+addTLSToSystemChannelOrderer1() {
+    setGlobalsForOrderer
+
+    peer channel fetch config config_block.pb -o localhost:7050 -c $SYSTEM_CHANNEL_NAME --tls --cafile $ORDERER_CA
+
+    # configtxlator proto_decode --input config_block.pb --type common.Block | jq .data.data[0].payload.data.config >config.json
+
+    # cp config.json modified_config.json
+
+    # echo "## Encode Orderer1"
+    # cat $ORDERER_1_TLS_FILE | base64 -w 0
+    # echo -e "\n##----------------------------"
+    #  echo "## Encode Orderer2"
+    # cat $ORDERER_2_TLS_FILE | base64 -w 0
+    # echo -e "\n----------------------------"
+    #  echo "## Encode Orderer3"
+    # cat $ORDERER_3_TLS_FILE | base64 -w 0
+    # echo -e "\n----------------------------"
+
+    # Update modified_config.json with above base64 certs
+
+
+    # configtxlator proto_encode --input config.json --type common.Config --output config.pb
+    # configtxlator proto_encode --input modified_config.json --type common.Config --output modified_config.pb
+
+    # configtxlator compute_update --channel_id $SYSTEM_CHANNEL_NAME --original config.pb --updated modified_config.pb --output config_update.pb
+    # configtxlator proto_decode --input config_update.pb --type common.ConfigUpdate --output config_update.json
+    
+    # echo "{\"payload\":{\"header\":{\"channel_header\":{\"channel_id\":\"sys-channel\", \"type\":2}},\"data\":{\"config_update\":"$(cat config_update.json)"}}}" | jq . >config_update_in_envelope.json
+    
+    # configtxlator proto_encode --input config_update_in_envelope.json --type common.Envelope --output config_update_in_envelope.pb
+    
+    # peer channel update -f config_update_in_envelope.pb -c $SYSTEM_CHANNEL_NAME -o localhost:7050 --tls true --cafile $ORDERER_CA
+
+    #  peer channel fetch 0 ./$SYSTEM_CHANNEL_NAME.block -o localhost:8050 \
+    #     --ordererTLSHostnameOverride orderer2.example.com \
+    #     -c $CHANNEL_NAME --tls --cafile $ORDERER_CA
+
+    # --------------------------------------------------------------------------
+
+
+}
+
+addTLSToSystemChannelOrderer1
