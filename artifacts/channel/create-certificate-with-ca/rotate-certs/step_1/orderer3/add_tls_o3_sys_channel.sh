@@ -3,8 +3,6 @@ export CORE_PEER_TLS_ENABLED=true
 export ORDERER_CA=${PWD}/../../../../crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
 export FABRIC_CFG_PATH=${PWD}/../../../../../channel/config/
 
-export TLS_FILE=${PWD}/../../../../../artifacts/channel/crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/server.crt 
-
 export ORDERER_3_TLS_FILE=${PWD}/../../../../new-certs/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/server.crt
 
 export CHANNEL_NAME=mychannel
@@ -12,7 +10,8 @@ export SYSTEM_CHANNEL_NAME=sys-channel
 
 setGlobalsForOrderer() {
     export CORE_PEER_LOCALMSPID="OrdererMSP"
-    export CORE_PEER_MSPCONFIGPATH=${PWD}/../../../../crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp
+    # export CORE_PEER_MSPCONFIGPATH=${PWD}/../../../../crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp
+     export CORE_PEER_MSPCONFIGPATH=${PWD}/../../../../new-certs/ordererOrganizations/example.com/users/Admin@example.com/msp
 
 }
 

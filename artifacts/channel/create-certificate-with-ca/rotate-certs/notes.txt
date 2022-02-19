@@ -1,33 +1,34 @@
 
-
-Part I
-    1) Create Network 
-
-
-
-Part II
-    1) Persist data
-    2) Set time in past of your machine if you want to reproduce certificate expiration(If network already down cause of cert expire, you can skip this issue reproduce part )
+Part I : If network already down cause of cert expire, you can skip this part 
+    1) To reproduce issue, set time of machine to past.
+    2) Set time in past of your machine if you want to reproduce certificate expiration
         - sudo timedatectl set-ntp no
-        - sudo timedatectl set-time '2020-01-05'
-        - sudo timedatectl set-time '2020-08-05'
+        - sudo timedatectl set-time '2022-01-17' (33 days past)
 
         - sudo timedatectl set-ntp yes
-        - sudo hwclock — systohc — localtime
-
         - 720h (1 month)
 
     2) Create ca services from scratch
         - Change permission of folder fabric-ca
-        - Change tls ime to expire for 4320h
+        - Change ca configuration  file for each org
+            1) Enrollment - 720h
+            2) TLS - 720
+        - Restart all CA Server
+    3) Create Network participant certificates using CA
+    4) Create Channel Artifacts
+    5) Run all peer services(Persist data for each service)
+    6) Create Channel & Deploy Chaincode
+    7) Start API Server & invoke tx
 
-
-
-
-
-
-
-
-Orderer changes when update
-- ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/sys-channel.block
-- ./channel/create-certificate-with-ca/rotate-certs/step_1/sys-channel.block:/var/hyperledger/orderer/sys-channel.block
+Part II
+    1) Change date to present, We have certificate expiry of 720h(30 days), in this case, network is not running as expected cause of expired certificate
+    2) Renew Certificate for all component
+    3) Add additional env variable in orderer service and Restart
+    4) First Change msp with newly created msp of all component(peer & Orderer) and restart services
+    5) We have to make configuration update to change orderer tls certificate. In current network we have one Application channel, one system channel.
+         We need to do this configuration update for both channel. We can do configuration update for one orderer at a time.
+         In current network we have 3 orderer, it means we need to do 6 configuration update.
+    6) Make configuration update for System channel first and hen application channel. Once successfully done, replace newly created tls certificate and restart orderer 
+    7) Do same above procedure for all orderer
+    8) Recreate connection profile and restart api server.
+    9) We need to enroll new user to invoke transaction.

@@ -206,7 +206,7 @@ createCertificatesForOrg3() {
   echo
   echo "Enroll the CA admin"
   echo
-  mkdir -p /../crypto-config/peerOrganizations/org3.example.com/
+  mkdir -p ../crypto-config/peerOrganizations/org3.example.com/
 
   export FABRIC_CA_CLIENT_HOME=${PWD}/../crypto-config/peerOrganizations/org3.example.com/
 
