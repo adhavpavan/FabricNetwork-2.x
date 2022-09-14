@@ -12,6 +12,7 @@ const { blockListener, contractListener } = require('./Listeners');
 const invokeTransaction = async (channelName, chaincodeName, fcn, args, username, org_name, transientData) => {
     try {
         const ccp = await helper.getCCP(org_name);
+        console.log("==================", channelName, chaincodeName, fcn, args, username, org_name,)
 
         const walletPath = await helper.getWalletPath(org_name);
         const wallet = await Wallets.newFileSystemWallet(walletPath);

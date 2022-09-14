@@ -1,0 +1,6 @@
+{
+  "index": { "fields": ["orgId","docType","updatedAt"] },
+  "ddoc": "indexAssetTypeOrgIdTime",
+  "name": "orgId_docType_time_index",
+  "type": "json"
+}

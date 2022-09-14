@@ -10,7 +10,6 @@ const helper = require('./helper')
 const query = async (channelName, chaincodeName, args, fcn, username, org_name) => {
 
     try {
-
         // load the network configuration
         // const ccpPath = path.resolve(__dirname, '..', 'config', 'connection-org1.json');
         // const ccpJSON = fs.readFileSync(ccpPath, 'utf8')
@@ -52,7 +51,7 @@ const query = async (channelName, chaincodeName, args, fcn, username, org_name) 
             case "GetHistoryForAsset":
             case "GetCarById":
                 console.log("=============")
-                result = await contract.evaluateTransaction('SmartContract:'+fcn, args[0]);
+                result = await contract.evaluateTransaction(fcn, args[0]);
                 break;
             default:
                 break;
