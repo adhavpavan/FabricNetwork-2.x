@@ -98,7 +98,7 @@ approveForMyOrg1() {
     # set -x
     peer lifecycle chaincode approveformyorg -o localhost:7050 \
         --ordererTLSHostnameOverride orderer.example.com --tls \
-        --signature-policy "OR('Org1MSP.member','Org2MSP.member', 'Org2MSP.member')" \
+        --signature-policy "OR('Org1MSP.member','Org2MSP.member', 'Org3MSP.member')" \
         --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} --version ${VERSION} \
         --package-id ${PACKAGE_ID} \
         --sequence ${SEQUENCE}

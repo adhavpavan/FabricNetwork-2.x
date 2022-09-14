@@ -3,10 +3,22 @@ export FABRIC_CA_CLIENT_HOME=${PWD}/clients/admin
 EnrollAdmin() {
 
     fabric-ca-client enroll -u https://admin:adminpw@localhost:7054 --caname ca.org1.example.com --tls.certfiles ${PWD}/fabric-ca/tls-cert.pem
+    # fabric-ca-client enroll -u https://admin:adminpw@localhost:7054 --caname ca.org1.example.com --tls.certfiles ${PWD}/pavan2/tls/tlscacerts/tls-localhost-7054-ca-org1-example-com.pem
+
+    # fabric-ca-client enroll -u https://admin:adminpw@localhost:7054 --caname ca.org1.example.com --tls.certfiles ${PWD}/pavan2/tls/server.crt
 
 }
 
-# EnrollAdmin
+EnrollAdmin
+
+
+# fabric-ca-client register --caname ca.org1.example.com --id.name ca --id.secret ca-password --id.type fabric --tls.certfiles ${PWD}/fabric-ca/org1/tls-cert.pem
+# fabric-ca-client register --caname ca.org1.example.com --id.name abcd --id.type fabric --id.secret adminpw --tls.certfiles ${PWD}/fabric-ca/tls-cert.pem
+# fabric-ca-client enroll -u https://abcd:adminpw@localhost:7054 --caname ca.org1.example.com -M ${PWD}/./pavan2/tls --enrollment.profile tls --csr.hosts ca --csr.hosts localhost --tls.certfiles ${PWD}/fabric-ca/tls-cert.pem
+
+# fabric-ca-client register --caname ca.org1.example.com --id.name fabric-ca-server2 --id.type fabric --id.secret adminpw --tls.certfiles ${PWD}/fabric-ca/tls-cert.pem
+# fabric-ca-client enroll -u https://fabric-ca-server2:adminpw@localhost:7054 --caname ca.org1.example.com -M ${PWD}/./pavan3/tls --enrollment.profile tls --csr.hosts ca --csr.hosts localhost --tls.certfiles ${PWD}/fabric-ca/tls-cert.pem
+
 
 RegisterNewAdmin() {
     # export FABRIC_CA_CLIENT_HOME=${PWD}/clients/admin2
@@ -86,6 +98,7 @@ RevokeIdentity() {
 
 GetIdentityInfo() {
 
+    # fabric-ca-client identity list --id peer1 --tls.certfiles ${PWD}/fabric-ca/tls-cert.pem
     fabric-ca-client identity list --id peer1 --tls.certfiles ${PWD}/fabric-ca/tls-cert.pem
 
 }
@@ -97,7 +110,7 @@ GetIdentityList() {
 
 }
 
-GetIdentityList
+# GetIdentityList
 
 # Add new identity with json string ot flags
 AddNewIdentity() {

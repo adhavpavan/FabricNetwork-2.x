@@ -80,6 +80,8 @@ const getRegisteredUser = async (username, userOrg, isJson) => {
         secret = await ca.register({ affiliation: await getAffiliation(userOrg), enrollmentID: username, role: 'client' }, adminUser);
         // const secret = await ca.register({ affiliation: 'org1.department1', enrollmentID: username, role: 'client', attrs: [{ name: 'role', value: 'approver', ecert: true }] }, adminUser);
 
+        console.log(`Secret for the user with username: ${username} -------> ${secret}`)
+
     } catch (error) {
         return error.message
     }

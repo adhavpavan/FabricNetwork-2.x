@@ -16,7 +16,7 @@ const invokeTransaction = async (channelName, chaincodeName, fcn, args, username
         const walletPath = await helper.getWalletPath(org_name);
         const wallet = await Wallets.newFileSystemWallet(walletPath);
         console.log(`Wallet path: ${walletPath}`);
-
+        
         let identity = await wallet.get(username);
         if (!identity) {
             console.log(`An identity for the user ${username} does not exist in the wallet, so registering user`);
@@ -35,7 +35,7 @@ const invokeTransaction = async (channelName, chaincodeName, fcn, args, username
         const gateway = new Gateway();
         await gateway.connect(ccp, connectOptions);
 
-        const network = await gateway.getNetwork(channelName);
+     const network = await gateway.getNetwork(channelName);
         const contract = network.getContract(chaincodeName);
 
         // Important: Please dont set listener here, I just showed how to set it. If we are doing here, it will set on every invoke call.
@@ -49,8 +49,9 @@ const invokeTransaction = async (channelName, chaincodeName, fcn, args, username
         let message;
 
         switch (fcn) {
+            case 'CreateContract':
             case "CreateCar":
-                result = await contract.submitTransaction('SmartContract:'+fcn, args[0]);
+                result = await contract.submitTransaction(fcn, args[0]);
                 result = {txid: result.toString()}
                 break;
             case "UpdateCarOwner":
