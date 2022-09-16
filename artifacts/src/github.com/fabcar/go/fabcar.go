@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/hyperledger/fabric-chaincode-go/pkg/cid"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"github.com/hyperledger/fabric/common/flogging"
 )
@@ -46,6 +47,56 @@ func (s *SmartContract) CreateCar(ctx contractapi.TransactionContextInterface, c
 	ctx.GetStub().SetEvent("CreateAsset", carAsBytes)
 
 	return ctx.GetStub().GetTxID(), ctx.GetStub().PutState(car.ID, carAsBytes)
+}
+
+func (s *SmartContract) ABACTest(ctx contractapi.TransactionContextInterface, carData string) (string, error) {
+
+	mspId, err := cid.GetMSPID(ctx.GetStub())
+	if err != nil {
+		return "", fmt.Errorf("failed while getting identity. %s", err.Error())
+	}
+	if mspId != "Org2MSP" {
+		return "", fmt.Errorf("You are not authorized to create Car Data")
+	}
+
+	if len(carData) == 0 {
+		return "", fmt.Errorf("Please pass the correct car data")
+	}
+
+	var car Car
+	err = json.Unmarshal([]byte(carData), &car)
+	if err != nil {
+		return "", fmt.Errorf("Failed while unmarshling car. %s", err.Error())
+	}
+
+	carAsBytes, err := json.Marshal(car)
+	if err != nil {
+		return "", fmt.Errorf("Failed while marshling car. %s", err.Error())
+	}
+
+	ctx.GetStub().SetEvent("CreateAsset", carAsBytes)
+
+	return ctx.GetStub().GetTxID(), ctx.GetStub().PutState(car.ID, carAsBytes)
+}
+
+func (s *SmartContract) CreatePrivateDataImplicitForOrg1(ctx contractapi.TransactionContextInterface, carData string) (string, error) {
+
+	if len(carData) == 0 {
+		return "", fmt.Errorf("please pass the correct document data")
+	}
+
+	var car Car
+	err := json.Unmarshal([]byte(carData), &car)
+	if err != nil {
+		return "", fmt.Errorf("failed while un-marshalling document. %s", err.Error())
+	}
+
+	carAsBytes, err := json.Marshal(car)
+	if err != nil {
+		return "", fmt.Errorf("failed while marshalling car. %s", err.Error())
+	}
+
+	return ctx.GetStub().GetTxID(), ctx.GetStub().PutPrivateData("_implicit_org_Org1MSP", car.ID, carAsBytes)
 }
 
 //

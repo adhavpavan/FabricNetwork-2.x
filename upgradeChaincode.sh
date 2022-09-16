@@ -49,7 +49,7 @@ presetup() {
 CHANNEL_NAME="mychannel"
 CC_RUNTIME_LANGUAGE="golang"
 VERSION="2"
-SEQUENCE="3"
+SEQUENCE="2"
 CC_SRC_PATH="./artifacts/src/github.com/fabcar/go"
 CC_NAME="fabcar"
 

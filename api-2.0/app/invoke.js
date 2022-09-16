@@ -50,6 +50,8 @@ const invokeTransaction = async (channelName, chaincodeName, fcn, args, username
         let message;
 
         switch (fcn) {
+            case "CreatePrivateDataImplicitForOrg1":
+            case 'ABACTest':
             case 'CreateContract':
             case "CreateCar":
                 result = await contract.submitTransaction(fcn, args[0]);
