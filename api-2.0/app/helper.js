@@ -1,6 +1,6 @@
 'use strict';
 
-var { Gateway, Wallets } = require('fabric-network');
+var { Gateway, Wallets, CouchDBWalletStore, X509WalletMixin } = require('fabric-network');
 const path = require('path');
 const FabricCAServices = require('fabric-ca-client');
 const fs = require('fs');
@@ -48,6 +48,13 @@ const getRegisteredUser = async (username, userOrg, isJson) => {
     console.log("ca url is ", caURL)
     const ca = new FabricCAServices(caURL);
 
+    // const couchDBWalletStore = {
+    //     url: 'http://admin:password@localhost:5990/', // Replace with your CouchDB URL
+    //     walletPath: './couchdb_wallet',   // Replace with your desired wallet path
+    //   };
+ 
+    //   const wallet = await Wallets.newCouchDBWallet(couchDBWalletStore);
+
     const walletPath = await getWalletPath(userOrg)
     const wallet = await Wallets.newFileSystemWallet(walletPath);
     console.log(`Wallet path: ${walletPath}`);
@@ -70,10 +77,12 @@ const getRegisteredUser = async (username, userOrg, isJson) => {
         adminIdentity = await wallet.get('admin');
         console.log("Admin Enrolled Successfully")
     }
+    console.log("Admin Enrolled Successfully=====================================", adminIdentity)
 
     // build a user object for authenticating with the CA
     const provider = wallet.getProviderRegistry().getProvider(adminIdentity.type);
     const adminUser = await provider.getUserContext(adminIdentity, 'admin');
+    console.log("----------------adminUser-----------------------", adminUser)
     let secret;
     try {
         // Register the user, enroll the user, and import the new identity into the wallet.
@@ -98,6 +107,7 @@ const getRegisteredUser = async (username, userOrg, isJson) => {
         type: 'X.509',
     };
     await wallet.put(username, x509Identity);
+
     console.log(`Successfully registered and enrolled admin user ${username} and imported it into the wallet`);
 
     var response = {
@@ -145,6 +155,14 @@ const enrollAdmin = async (org, ccp) => {
         const caTLSCACerts = caInfo.tlsCACerts.pem;
         const ca = new FabricCAServices(caInfo.url, { trustedRoots: caTLSCACerts, verify: false }, caInfo.caName);
 
+
+        // const couchDBWalletStore = {
+        //     url: 'http://admin:password@localhost:5990/', // Replace with your CouchDB URL
+        //     walletPath: './couchdb_wallet',   // Replace with your desired wallet path
+        //   };
+    
+        //   const wallet = await Wallets.newCouchDBWallet(couchDBWalletStore);
+
         // Create a new file system based wallet for managing identities.
         const walletPath = await getWalletPath(org) //path.join(process.cwd(), 'wallet');
         const wallet = await Wallets.newFileSystemWallet(walletPath);
@@ -168,6 +186,11 @@ const enrollAdmin = async (org, ccp) => {
             mspId: `${org}MSP`,
             type: 'X.509',
         };
+
+        // const identityLabel = 'admin'; // Specify the identity label
+        // const identity1 = X509WalletMixin.createIdentity('Org1MSP', certificate, privateKey);
+
+        // await wallet.put(identityLabel, identity1);
 
         await wallet.put('admin', x509Identity);
         console.log('Successfully enrolled admin user "admin" and imported it into the wallet');

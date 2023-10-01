@@ -24,9 +24,13 @@ EnrollAdmin() {
 
 function revokeFromCA() {
     # fabric-ca-client identity list --tls.certfiles $TLS_CA
-    # fabric-ca-client identity list --tls.certfiles  $TLS_CA --id test3
-    # fabric-ca-client revoke -e test5 --gencrl --tls.certfiles $TLS_CA
-    cat clients/admin/msp/crls/crl.pem | base64 -w 0 > user_cert_base64
+    # fabric-ca-client identity list --tls.certfiles  $TLS_CA --id test6
+    # fabric-ca-client revoke -e test10 --gencrl --tls.certfiles $TLS_CA
+    # cat clients/admin/msp/crls/crl.pem | base64 -w 0 > user_cert_base64
+
+    # fabric-ca-client reenroll -u https://test10:zgFpAbxasGgo@localhost:7054 --caname ca.org1.example.com --tls.certfiles $TLS_CA
+
+    fabric-ca-client register --caname ca.org1.example.com --id.name test10 --id.secret zgFpAbxasGgo --id.type client --tls.certfiles $TLS_CA
 }
 
 # revokeFromCA

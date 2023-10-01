@@ -20,15 +20,15 @@ setGlobalsForOrderer() {
 addTLSToSystemChannelOrderer1() {
     setGlobalsForOrderer
 
-    # peer channel fetch config config_block.pb -o localhost:7050 -c $SYSTEM_CHANNEL_NAME --tls --cafile $ORDERER_CA --tlsHandshakeTimeShift 200h
+    peer channel fetch config config_block.pb -o localhost:7050 -c $SYSTEM_CHANNEL_NAME --tls --cafile $ORDERER_CA --tlsHandshakeTimeShift 200h
 
-    # configtxlator proto_decode --input config_block.pb --type common.Block | jq .data.data[0].payload.data.config >config.json
+    configtxlator proto_decode --input config_block.pb --type common.Block | jq .data.data[0].payload.data.config >config.json
 
-    # cp config.json modified_config.json
+    cp config.json modified_config.json
 
-    # echo "## Encode Orderer1"
-    # cat $ORDERER_1_TLS_FILE | base64 -w 0
-    # echo -e "\n##----------------------------"
+    echo "## Encode Orderer1"
+    cat $ORDERER_1_TLS_FILE | base64 -w 0
+    echo -e "\n##----------------------------"
 
     # Update modified_config.json with above base64 certs
 

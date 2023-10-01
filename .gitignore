@@ -94,6 +94,8 @@ dist
 # Serverless directories
 .serverless/
 
+*.gz
+
 # FuseBox cache
 .fusebox/
 
@@ -184,3 +186,5 @@ artifacts/channel/new-certs
 config.json
 mychannel.block
 sys-channel.block
+artifacts/ca-operations/Revocation/user_cert_base64
+test.tar.gz

@@ -1,0 +1,25 @@
+version: "2.1"
+
+volumes:
+  data:
+  walletstore:
+
+networks:
+  test:
+
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    hostname: portainer
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /data:/data 
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 9000:9000
+      # - 9443:9443
+    networks:
+      - test

@@ -48,8 +48,8 @@ presetup() {
 
 CHANNEL_NAME="mychannel"
 CC_RUNTIME_LANGUAGE="golang"
-VERSION="2"
-SEQUENCE="2"
+VERSION="11"
+SEQUENCE=9
 CC_SRC_PATH="./artifacts/src/github.com/fabcar/go"
 CC_NAME="fabcar"
 
@@ -98,11 +98,12 @@ approveForMyOrg1() {
     # set -x
     peer lifecycle chaincode approveformyorg -o localhost:7050 \
         --ordererTLSHostnameOverride orderer.example.com --tls \
-        --signature-policy "OR('Org1MSP.member','Org2MSP.member', 'Org2MSP.member')" \
+        --signature-policy "OR('Org1MSP.member','Org2MSP.member', 'Org3MSP.member')" \
         --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} --version ${VERSION} \
         --package-id ${PACKAGE_ID} \
         --sequence ${SEQUENCE}
     # set +x
+    # --signature-policy "OR('Org1MSP.member','Org2MSP.member', 'Org3MSP.member')" \
 
     echo "===================== chaincode approved from org 1 ===================== "
 
@@ -120,11 +121,11 @@ checkCommitReadyness() {
     setGlobalsForPeer0Org1
     peer lifecycle chaincode checkcommitreadiness \
         --channelID $CHANNEL_NAME --name ${CC_NAME} --version ${VERSION} \
-        --signature-policy "OR('Org1MSP.member','Org2MSP.member', 'Org2MSP.member')" \
+        --signature-policy "OR('Org1MSP.member','Org2MSP.member', 'Org3MSP.member')" \
         --sequence ${SEQUENCE} --output json
     echo "===================== checking commit readyness from org 1 ===================== "
 }
-
+# --signature-policy "OR('Org1MSP.member','Org2MSP.member', 'Org3MSP.member')" \
 # checkCommitReadyness
 
 approveForMyOrg2() {
@@ -132,11 +133,11 @@ approveForMyOrg2() {
 
     peer lifecycle chaincode approveformyorg -o localhost:7050 \
         --ordererTLSHostnameOverride orderer.example.com --tls $CORE_PEER_TLS_ENABLED \
-        --signature-policy "OR('Org1MSP.member','Org2MSP.member', 'Org2MSP.member')" \
+        --signature-policy "OR('Org1MSP.member','Org2MSP.member', 'Org3MSP.member')" \
         --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} \
         --version ${VERSION} --package-id ${PACKAGE_ID} \
         --sequence ${SEQUENCE}
-
+# --signature-policy "OR('Org1MSP.member','Org2MSP.member', 'Org3MSP.member')" \
     echo "===================== chaincode approved from org 2 ===================== "
 }
 
@@ -148,11 +149,11 @@ checkCommitReadyness() {
     setGlobalsForPeer0Org2
     peer lifecycle chaincode checkcommitreadiness --channelID $CHANNEL_NAME \
         --peerAddresses localhost:9051 --tlsRootCertFiles $PEER0_ORG2_CA \
-        --signature-policy "OR('Org1MSP.member','Org2MSP.member', 'Org2MSP.member')" \
+        --signature-policy "OR('Org1MSP.member','Org2MSP.member', 'Org3MSP.member')" \
         --name ${CC_NAME} --version ${VERSION} --sequence ${SEQUENCE} --output json
     echo "===================== checking commit readyness from org 1 ===================== "
 }
-
+# --signature-policy "OR('Org1MSP.member','Org2MSP.member', 'Org3MSP.member')" \
 # checkCommitReadyness
 
 approveForMyOrg3() {
@@ -160,11 +161,11 @@ approveForMyOrg3() {
 
     peer lifecycle chaincode approveformyorg -o localhost:7050 \
         --ordererTLSHostnameOverride orderer.example.com --tls $CORE_PEER_TLS_ENABLED \
-        --signature-policy "OR('Org1MSP.member','Org2MSP.member', 'Org2MSP.member')" \
+        --signature-policy "OR('Org1MSP.member','Org2MSP.member', 'Org3MSP.member')" \
         --cafile $ORDERER_CA --channelID $CHANNEL_NAME --name ${CC_NAME} \
         --version ${VERSION} --package-id ${PACKAGE_ID} \
         --sequence ${SEQUENCE}
-
+# --signature-policy "OR('Org1MSP.member','Org2MSP.member', 'Org3MSP.member')" \
     echo "===================== chaincode approved from org 2 ===================== "
 }
 
@@ -176,24 +177,24 @@ checkCommitReadyness() {
     setGlobalsForPeer0Org3
     peer lifecycle chaincode checkcommitreadiness --channelID $CHANNEL_NAME \
         --peerAddresses localhost:11051 --tlsRootCertFiles $PEER0_ORG3_CA \
-        --signature-policy "OR('Org1MSP.member','Org2MSP.member', 'Org2MSP.member')" \
+        --signature-policy "OR('Org1MSP.member','Org2MSP.member', 'Org3MSP.member')" \
         --name ${CC_NAME} --version ${VERSION} --sequence ${SEQUENCE} --output json
     echo "===================== checking commit readyness from org 1 ===================== "
 }
-
+# --signature-policy "OR('Org1MSP.member','Org2MSP.member', 'Org3MSP.member')" \
 # checkCommitReadyness
 
 commitChaincodeDefination() {
     setGlobalsForPeer0Org1
     peer lifecycle chaincode commit -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com \
         --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA \
-        --signature-policy "OR('Org1MSP.member','Org2MSP.member', 'Org2MSP.member')" \
+        --signature-policy "OR('Org1MSP.member','Org2MSP.member', 'Org3MSP.member')" \
         --channelID $CHANNEL_NAME --name ${CC_NAME} \
         --peerAddresses localhost:7051 --tlsRootCertFiles $PEER0_ORG1_CA \
         --peerAddresses localhost:9051 --tlsRootCertFiles $PEER0_ORG2_CA \
         --peerAddresses localhost:11051 --tlsRootCertFiles $PEER0_ORG3_CA \
         --version ${VERSION} --sequence ${SEQUENCE}
-
+# --signature-policy "OR('Org1MSP.member','Org2MSP.member', 'Org3MSP.member')" \
 }
 
 # commitChaincodeDefination

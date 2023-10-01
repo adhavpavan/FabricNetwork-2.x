@@ -41,12 +41,51 @@ func (s *SmartContract) CreateCar(ctx contractapi.TransactionContextInterface, c
 
 	carAsBytes, err := json.Marshal(car)
 	if err != nil {
-		return "", fmt.Errorf("Failed while marshling car. %s", err.Error())
+		return "", fmt.Errorf("failed while marshling car. %s", err.Error())
 	}
 
 	ctx.GetStub().SetEvent("CreateAsset", carAsBytes)
 
 	return ctx.GetStub().GetTxID(), ctx.GetStub().PutState(car.ID, carAsBytes)
+}
+
+func (s *SmartContract) Bid(ctx contractapi.TransactionContextInterface, orderID string) (string, error) {
+	//verify that submitting client has the role of courier
+	// err := ctx.GetClientIdentity().AssertAttributeValue("role", "Courier")
+	// if err != nil {
+	// 	return "", fmt.Errorf("submitting client not authorized to create a bid, does not have courier role")
+	// }
+	// get courier bid from transient map
+	transientMap, err := ctx.GetStub().GetTransient()
+	if err != nil {
+		return "", fmt.Errorf("error getting transient: %v", err)
+	}
+	BidJSON, ok := transientMap["bid"]
+	if !ok {
+		return "", fmt.Errorf("bid key not found in the transient map")
+	}
+	// get the implicit collection name using the courier's organization ID and verify that courier is targeting their peer to store the bid
+	// collection, err := getClientImplicitCollectionNameAndVerifyClientOrg(ctx)
+	// if err != nil {
+	// 	return "", err
+	// }
+	// the transaction ID is used as a unique index for the bid
+	bidTxID := ctx.GetStub().GetTxID()
+
+	// create a composite key using the transaction ID
+	bidKey, err := ctx.GetStub().CreateCompositeKey("bid", []string{orderID, bidTxID})
+	if err != nil {
+		return "", fmt.Errorf("failed to create composite key: %v", err)
+	}
+	// put the bid into the organization's implicit data collection
+
+	// err = ctx.GetStub().PutPrivateData(collection, bidKey, BidJSON)
+	err = ctx.GetStub().PutPrivateData("_implicit_org_Org3MSP", bidKey, []byte(BidJSON))
+	if err != nil {
+		return "", fmt.Errorf("failed to input bid price into collection: %v", err)
+	}
+	// return the trannsaction ID so couriers can identify their bid
+	return bidTxID, nil
 }
 
 func (s *SmartContract) ABACTest(ctx contractapi.TransactionContextInterface, carData string) (string, error) {

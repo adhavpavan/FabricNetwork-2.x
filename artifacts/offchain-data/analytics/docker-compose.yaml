@@ -11,6 +11,8 @@ services:
     ports:
       - "3010:3000"
     container_name: analytics_metabase
+    volumes:
+      - ./metabase-data:/metabase.db 
     hostname: analytics_metabase
     networks:
       - test

@@ -1,8 +1,8 @@
 version: "2.1"
 
-volumes:
-  data:
-  walletstore:
+# volumes:
+#   data:
+#   walletstore:
 
 networks:
   test:
@@ -21,8 +21,8 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-    volumes:
-      - data:/var/lib/postgresql/data
+    # volumes:
+    #   - data:/var/lib/postgresql/data
     networks:
       - test
 
@@ -44,11 +44,11 @@ services:
       - ./config.json:/opt/explorer/app/platform/fabric/config.json
       - ./connection-profile:/opt/explorer/app/platform/fabric/connection-profile
       - ./examples/net1/crypto:/tmp/crypto
-      - walletstore:/opt/wallet
+      # - walletstore:/opt/wallet
       - ./crypto-config/:/etc/data
     command: sh -c "node /opt/explorer/main.js && tail -f /dev/null"
     ports:
-      - 8080:8080
+      - 8081:8080
     depends_on:
       explorerdb.mynetwork.com:
         condition: service_healthy

@@ -1,0 +1,4 @@
+
+
+--- Get messages in queue
+rabbitmqadmin get queue=test ackmode=ack_requeue_false

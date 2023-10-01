@@ -2,6 +2,8 @@ export FABRIC_CA_CLIENT_HOME=${PWD}/clients/admin
 
 EnrollAdmin() {
 
+    # fabric-ca-client enroll -u http://admin:adminpw@localhost:7054 --caname ca.org1.example.com 
+    # fabric-ca-client enroll -u https://admin:adminpw@localhost:7054 --caname ca.org1.example.com --tls.certfiles ${PWD}/fabric-ca/server.crt
     fabric-ca-client enroll -u https://admin:adminpw@localhost:7054 --caname ca.org1.example.com --tls.certfiles ${PWD}/fabric-ca/tls-cert.pem
     # fabric-ca-client enroll -u https://admin:adminpw@localhost:7054 --caname ca.org1.example.com --tls.certfiles ${PWD}/pavan2/tls/tlscacerts/tls-localhost-7054-ca-org1-example-com.pem
 
@@ -9,12 +11,30 @@ EnrollAdmin() {
 
 }
 
-EnrollAdmin
+# EnrollAdmin
+
+
+
+# fabric-ca-client register -u http://localhost:7054 --caname ca.org1.example.com --id.name fabric-ca-server2 --id.type fabric --id.secret adminpw 
+# --tls.certfiles ${PWD}/fabric-ca/tls-cert.pem
+# fabric-ca-client enroll -u http://fabric-ca-server2:adminpw@localhost:7054 --caname ca.org1.example.com -M ${PWD}/./jaun/tls --enrollment.profile tls --csr.hosts ca --csr.hosts localhost 
+# --tls.certfiles ${PWD}/fabric-ca/tls-cert.pem
+
+fabric-ca-client register -u https://localhost:7054 --caname ca.org1.example.com --id.name jaun --id.type fabric --id.secret adminpw --tls.certfiles ${PWD}/fabric-ca/server.crt
+# fabric-ca-client enroll -u http://fabric-ca-server2:adminpw@localhost:7054 --caname ca.org1.example.com -M ${PWD}/./jaun/tls --enrollment.profile tls --csr.hosts ca --csr.hosts localhost 
+# --tls.certfiles ${PWD}/fabric-ca/tls-cert.pem
 
 
 # fabric-ca-client register --caname ca.org1.example.com --id.name ca --id.secret ca-password --id.type fabric --tls.certfiles ${PWD}/fabric-ca/org1/tls-cert.pem
 # fabric-ca-client register --caname ca.org1.example.com --id.name abcd --id.type fabric --id.secret adminpw --tls.certfiles ${PWD}/fabric-ca/tls-cert.pem
 # fabric-ca-client enroll -u https://abcd:adminpw@localhost:7054 --caname ca.org1.example.com -M ${PWD}/./pavan2/tls --enrollment.profile tls --csr.hosts ca --csr.hosts localhost --tls.certfiles ${PWD}/fabric-ca/tls-cert.pem
+
+# fabric-ca-client register --caname ca.org1.example.com --id.name fabric-ca-server2 --id.type fabric --id.secret adminpw --tls.certfiles ${PWD}/fabric-ca/tls-cert.pem
+# fabric-ca-client enroll -u https://fabric-ca-server2:adminpw@localhost:7054 --caname ca.org1.example.com -M ${PWD}/./pavan3/tls --enrollment.profile tls --csr.hosts ca --csr.hosts localhost --tls.certfiles ${PWD}/fabric-ca/tls-cert.pem
+
+# fabric-ca-client register -u https://localhost:7054 --caname ca.org1.example.com --id.name ca3 --id.secret ca-password --id.type fabric --tls.certfiles ${PWD}/fabric-ca/server.crt
+# fabric-ca-client register --caname ca.org1.example.com --id.name abcd --id.type fabric --id.secret adminpw --tls.certfiles ${PWD}/fabric-ca/tls-cert.pem
+# fabric-ca-client enroll -u https://ca3:ca-password@localhost:7054 --caname ca.org1.example.com -M ${PWD}/./pavan4/tls --enrollment.profile tls --csr.hosts ca --csr.hosts localhost --tls.certfiles ${PWD}/fabric-ca/server.crt
 
 # fabric-ca-client register --caname ca.org1.example.com --id.name fabric-ca-server2 --id.type fabric --id.secret adminpw --tls.certfiles ${PWD}/fabric-ca/tls-cert.pem
 # fabric-ca-client enroll -u https://fabric-ca-server2:adminpw@localhost:7054 --caname ca.org1.example.com -M ${PWD}/./pavan3/tls --enrollment.profile tls --csr.hosts ca --csr.hosts localhost --tls.certfiles ${PWD}/fabric-ca/tls-cert.pem
@@ -27,14 +47,33 @@ RegisterNewAdmin() {
     fabric-ca-client register \
         --caname ca.org1.example.com \
         --id.name admin3 \
-        --id.secret admin3pw \
         --id.type admin \
         --id.attrs 'hf.Revoker=true,admin=true:ecert' \
         --id.affiliation org1.department1 \
         --tls.certfiles ${PWD}/fabric-ca/tls-cert.pem
+        # --id.secret admin3pw \
 }
 
 # RegisterNewAdmin
+
+
+ReenrollIdentity() {
+
+
+
+    # export FABRIC_CA_CLIENT_HOME=${PWD}/clients/peer1
+
+    fabric-ca-client certificate list --tls.certfiles ${PWD}/fabric-ca/tls-cert.pem
+
+
+    # fabric-ca-client \
+    #     reenroll \
+    #     -u https://admin3:peer4pw@localhost:7054 \
+    #     --caname ca.org1.example.com \
+    #     --tls.certfiles ${PWD}/fabric-ca/tls-cert.pem
+}
+
+# ReenrollIdentity
 
 RegisterPeer() {
     fabric-ca-client register \
