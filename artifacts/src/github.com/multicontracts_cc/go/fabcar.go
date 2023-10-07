@@ -65,6 +65,7 @@ func (s *SmartContract) UpdateCarOwner(ctx contractapi.TransactionContextInterfa
 		return "", fmt.Errorf("Please pass the correct car id")
 	}
 
+
 	carAsBytes, err := ctx.GetStub().GetState(carID)
 
 	if err != nil {
